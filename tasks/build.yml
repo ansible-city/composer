@@ -1,0 +1,9 @@
+---
+
+- name: Install composer locally
+  become: yes
+  become_user: "{{ composer.user }}"
+  shell: php -r "readfile('https://getcomposer.org/installer');" | php
+  args:
+    chdir: "{{ composer.install_dir }}"
+    creates: "{{ composer.install_dir }}/composer.phar"

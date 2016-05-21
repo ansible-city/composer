@@ -1,0 +1,11 @@
+---
+
+- name: Ensure folders
+  become: yes
+  become_user: "{{ dashboard.name }}"
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "/home/{{ dashboard.name }}/web"
+    - "/home/{{ dashboard.name }}/web/htdocs"

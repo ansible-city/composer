@@ -1,0 +1,18 @@
+---
+
+galaxy_info:
+  author: Wojtek Oledzki
+  company: Voytek Solutions Ltd
+  description: Installs and configures PHP Composer
+  github_branch: master
+  license: MIT
+  min_ansible_version: 1.9
+  platforms:
+    - name: Ubuntu
+      versions:
+        - precise
+        - trusty
+  galaxy_tags:
+    - development
+
+dependencies: [ ]

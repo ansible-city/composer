@@ -1,0 +1,11 @@
+---
+
+- name: Download composer.phar
+  include: build.yml
+  tags:
+    - build
+
+- name: Configure composer
+  include: configure.yml
+  tags:
+    - configure

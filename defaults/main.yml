@@ -1,0 +1,16 @@
+---
+
+composer:
+  user: ~
+  isntall_dir: ~
+  auth:
+    # git oauth
+    # github:
+    #   github.com: <key>
+    github: { }
+    # http auth
+    # http:
+    #   repo.example.org:
+    #     username: <username>
+    #     password: <password>
+    http: { }

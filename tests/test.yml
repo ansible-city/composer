@@ -1,0 +1,52 @@
+---
+
+- name: Test Composer
+  hosts: all
+
+  pre_tasks:
+    - name: Update apt
+      become: yes
+      apt:
+        cache_valid_time: 1800
+        update_cache: yes
+      tags:
+        - build
+
+    - name: Ensure php
+      become: yes
+      apt:
+        name: php5-cli
+      tags:
+        - build
+
+  roles:
+    - role: ansible-city.composer
+      composer:
+        user: "{{ ansible_user_id }}"
+        install_dir: "/home/{{ ansible_user_id }}"
+        auth:
+          github:
+            github.com: qwerty654321
+          http:
+            repo.example.org:
+              username: username
+              password: secret-password
+
+  post_tasks:
+    - name: should be installed in ~/
+      stat:
+        path: /home/vagrant/composer.phar
+      register: st
+      failed_when: not st.stat.exists
+      tags:
+        - assert
+
+    - name: should be configured with github oauth
+      command: "grep '\"github.com\": \"qwerty654321\"' /home/vagrant/.composer/auth.json"
+      tags:
+        - assert
+
+    - name: should be configured with github http auth
+      command: "grep '\"password\": \"secret-password\"' /home/vagrant/.composer/auth.json"
+      tags:
+        - assert

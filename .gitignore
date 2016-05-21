@@ -1,0 +1,3 @@
+.vagrant
+/tests/ansible-city.*
+*.bak

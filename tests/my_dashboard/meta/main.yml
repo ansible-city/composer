@@ -1,0 +1,7 @@
+---
+
+dependencies:
+  - role: ansible-city.users_and_groups
+    users_and_roles:
+      users:
+        - name: "{{ dashboard.name }}"
