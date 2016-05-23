@@ -19,22 +19,33 @@
       tags:
         - build
 
-    - name: Ensure install folder
-      file:
-        path: "/home/{{ ansible_user_id }}/test"
-        state: directory
+    - name: Add test users
+      become: yes
+      user:
+        name: "{{ item }}"
+      with_items:
+        - test
+        - test_no_auth
+        - test_single_auth
       tags:
         - build
 
   roles:
     - role: ansible-city.composer
       composer:
-        user: "{{ ansible_user_id }}"
+        user: test_no_auth
 
     - role: ansible-city.composer
       composer:
-        user: "{{ ansible_user_id }}"
-        install_dir: "/home/{{ ansible_user_id }}/test"
+        user: test_single_auth
+        auth:
+          github:
+            github.com: qwerty654321
+
+    - role: ansible-city.composer
+      composer:
+        user: test
+        install_dir: /home/test
         auth:
           github:
             github.com: qwerty654321
@@ -44,7 +55,14 @@
               password: secret-password
 
   post_tasks:
-    - name: should be installed in ~/
+    - name: test_single_auth user should be configured with only github oauth
+      become: yes
+      command: "grep '\"github.com\": \"qwerty654321\"' /home/test_single_auth/.composer/auth.json"
+      tags:
+        - assert
+
+    - name: test user should have composer installed
+      become: yes
       stat:
         path: /home/vagrant/test/composer.phar
       register: st
@@ -52,12 +70,14 @@
       tags:
         - assert
 
-    - name: should be configured with github oauth
-      command: "grep '\"github.com\": \"qwerty654321\"' /home/vagrant/.composer/auth.json"
+    - name: test user should be configured with github oauth
+      become: yes
+      command: "grep '\"github.com\": \"qwerty654321\"' /home/test/.composer/auth.json"
       tags:
         - assert
 
-    - name: should be configured with github http auth
-      command: "grep '\"password\": \"secret-password\"' /home/vagrant/.composer/auth.json"
+    - name: test user should be configured with github http auth
+      become: yes
+      command: "grep '\"password\": \"secret-password\"' /home/test/.composer/auth.json"
       tags:
         - assert
