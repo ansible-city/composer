@@ -1,4 +1,4 @@
 {
-  "http-basic": {{ composer.auth.http | to_nice_json }},
-  "github-oauth": {{ composer.auth.github | to_nice_json }}
+  "http-basic": {{ composer.auth.http | default({ }) | to_nice_json }},
+  "github-oauth": {{ composer.auth.github | default({ }) | to_nice_json }}
 }
