@@ -19,11 +19,22 @@
       tags:
         - build
 
+    - name: Ensure install folder
+      file:
+        path: "/home/{{ ansible_user_id }}/test"
+        state: directory
+      tags:
+        - build
+
   roles:
     - role: ansible-city.composer
       composer:
         user: "{{ ansible_user_id }}"
-        install_dir: "/home/{{ ansible_user_id }}"
+
+    - role: ansible-city.composer
+      composer:
+        user: "{{ ansible_user_id }}"
+        install_dir: "/home/{{ ansible_user_id }}/test"
         auth:
           github:
             github.com: qwerty654321
@@ -35,7 +46,7 @@
   post_tasks:
     - name: should be installed in ~/
       stat:
-        path: /home/vagrant/composer.phar
+        path: /home/vagrant/test/composer.phar
       register: st
       failed_when: not st.stat.exists
       tags:

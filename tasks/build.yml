@@ -7,3 +7,4 @@
   args:
     chdir: "{{ composer.install_dir }}"
     creates: "{{ composer.install_dir }}/composer.phar"
+  when: composer.install_dir is defined and composer.install_dir is not none
