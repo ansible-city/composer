@@ -3,14 +3,15 @@
 composer:
   user: ~
   isntall_dir: ~
-  auth:
-    # git oauth
-    # github:
-    #   github.com: <key>
-    github: { }
-    # http auth
-    # http:
-    #   repo.example.org:
-    #     username: <username>
-    #     password: <password>
-    http: { }
+  # You can define github and http auth using `auth` dict.
+  #
+  # github oauth
+  # github:
+  #   github.com: <key>
+  #
+  # http auth
+  # http:
+  #   repo.example.org:
+  #     username: <username>
+  #     password: <password>
+  auth: { }
